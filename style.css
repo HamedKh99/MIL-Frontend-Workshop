@@ -1,0 +1,131 @@
+body {
+  margin: 0;
+  font-family: "Lato", sans-serif;
+}
+
+.sidebar {
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  background-color: #f1f1f1;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+
+.sidebar a {
+  display: block;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+}
+
+.sidebar a.active {
+  background-color: #4caf50;
+  color: white;
+}
+
+.sidebar a:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
+
+div.content {
+  margin-left: 200px;
+  padding: 1px 16px;
+  height: 1000px;
+  background-color: #07423f;
+}
+
+.openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #07423f;
+  color: white;
+  margin-top: 10px;
+  border: none;
+  display: none;
+}
+
+
+input[type=text] {
+  width: 80%;
+  padding: 12px 20px;
+  margin: 16px auto;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  margin: 8px 8px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.noteForm {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.notes {
+
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  grid-gap: 10px;
+  padding: 10px;
+  
+}
+
+.notes > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid black;
+  text-align: center;
+  font-size: 16px;
+  height: 100px;
+  padding: 10px;
+}
+
+@media screen and (max-width: 992px) and (min-width: 601px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .sidebar a {
+    float: left;
+  }
+  div.content {
+    margin-left: 0;
+  }
+  .notes {
+    grid-template-columns: auto auto auto;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .sidebar {
+    width: 0;
+    transition: 0.5s;
+  }
+  div.content {
+    margin-left: 0;
+  }
+  .openbtn {
+      display: block;
+  }
+  .notes {
+    grid-template-columns: auto;
+  }
+  .noteForm {
+    width: 90%;
+    margin: 0 auto;
+  }
+  input[type=text] {
+    width: 70%;
+  }
+}
