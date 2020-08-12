@@ -3,7 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" type="text/css" href="./style.css" />
+    <script src="https://unpkg.com/vanilla-picker@2"></script>
     <title>Note Keeper</title>
   </head>
   <body>
@@ -15,19 +17,29 @@
 
     <div class="content">
       <button class="openbtn" onclick="openNav()">☰</button>
-      <form onsubmit="submitForm(event)" class="noteForm">
+      <form onsubmit="return false;" class="noteForm">
         <input
           type="text"
           id="noteInput"
           name="note"
           placeholder="Take a note..."
         />
-        <input type="submit" value="Submit" />
       </form>
-      <div class="notes">
-        
-      </div>
+      <form onsubmit="return false;" class="noteForm wide">
+        <input type="text" id="noteTitleInput" placeholder="Title" />
+        <input type="text" id="noteBodyInput" placeholder="Take a note..." />
+        <div class="formFooter">
+          <div class="iconButtonsContainer">
+            <button class="iconButton"><i class="material-icons">push_pin</i></button>
+            <button class="iconButton"><i class="material-icons">palette</i></button>
+          </div>
+          <input type="submit" value="Confirm"/>
+        </div>
+      </form>
+
+      <div class="notes"></div>
     </div>
     <script src="./script.js"></script>
+    <script src="./ui.js"></script>
   </body>
 </html>

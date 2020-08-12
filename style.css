@@ -1,6 +1,16 @@
+@font-face {
+  font-family: Roboto;
+  src: url('./Roboto-Bold.ttf');
+}
+
+@font-face {
+  font-family: Roboto-Light;
+  src: url('./Roboto-Light.ttf');
+}
+
 body {
   margin: 0;
-  font-family: "Lato", sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 .sidebar {
@@ -49,7 +59,6 @@ div.content {
 
 
 input[type=text] {
-  width: 80%;
   padding: 12px 20px;
   margin: 16px auto;
   border: 1px solid #ccc;
@@ -58,18 +67,61 @@ input[type=text] {
 }
 
 input[type=submit] {
-  background-color: #4CAF50;
   color: white;
   padding: 12px 20px;
   margin: 8px 8px;
   border: none;
-  border-radius: 4px;
   cursor: pointer;
+  background-color: #07423f;
+  font-size: 18px;
+  font-family: "Roboto", sans-serif;
 }
 
 .noteForm {
-  width: 80%;
-  margin: 0 auto;
+  width: 60%;
+  margin: 20px auto 0 auto;
+  border: 2px solid #b4c2bc;
+  border-radius: 5px; 
+}
+
+.noteForm.wide {
+  display: none;
+}
+
+.noteForm > input[type=text] {
+  width: 95%;
+  margin: 0;
+  background-color: #07423f;
+  border: none;
+  color: white;
+}
+
+.noteForm > input:focus {
+  outline: none;
+}
+
+.noteForm > input::placeholder {
+  color: #b4c2bc
+}
+
+.formFooter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.iconButtonsContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.iconButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: white;
+  margin: 0 10px;
+  outline: none;
 }
 
 .notes {
@@ -82,12 +134,18 @@ input[type=submit] {
 }
 
 .notes > div {
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid black;
-  text-align: center;
-  font-size: 16px;
-  height: 100px;
+  background-color: #07423f;
+  border: 2px solid #b4c2bc;
+  border-radius: 5px;
+  min-height: 120px;
   padding: 10px;
+  color: #b4c2bc;
+  transition: all 2s ease-in;
+}
+
+.notes > div > p {
+  font-size: 14px;
+  font-family: Roboto-Light;
 }
 
 @media screen and (max-width: 992px) and (min-width: 601px) {

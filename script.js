@@ -17,49 +17,169 @@ for (let i = 0; i < sidebarItems.length; i++) {
   }
 }
 
+var notesSidebarItem = sidebarItems[0];
+var archiveSidebarItem = sidebarItems[1];
+
+
+notesSidebarItem.addEventListener('click', (e) => {
+  notesSidebarItem.classList.add('active')
+  archiveSidebarItem.classList.remove('active')
+  document.getElementsByClassName('noteForm')[0].style.display = 'block'
+  getNotes()
+})
+
+archiveSidebarItem.addEventListener('click', (e) => {
+  archiveSidebarItem.classList.add('active')
+  notesSidebarItem.classList.remove('active')
+  document.getElementsByClassName('noteForm')[0].style.display = 'none'
+  document.getElementsByClassName('noteForm')[1].style.display = 'none'
+  getArchive()
+})
+
+
+var notesToShow = [];
+
 var notesContainer = document.getElementsByClassName("notes")[0];
 
-function addNote(text) {
-    var noteCard = document.createElement("div");
-    var noteText = document.createTextNode(text);
-    noteCard.appendChild(noteText);
-    notesContainer.insertBefore(noteCard, notesContainer.firstChild);
+function addNote(title, body, color, id) {
+  var noteCard = document.createElement("div");
+  noteCard.style.display = "flex";
+  noteCard.style.flexDirection = "column";
+  // noteCard.style.justifyContent = 'space-between'
+
+  noteCard.style.backgroundColor = color;
+
+  var titleText = document.createTextNode(title);
+  var noteTitle = document.createElement("h3");
+  noteTitle.appendChild(titleText);
+  noteTitle.style.marginTop = 0;
+
+  var bodyText = document.createTextNode(body);
+  var noteBody = document.createElement("p");
+  noteBody.appendChild(bodyText);
+
+  var noteFooter = document.createElement("div");
+  noteFooter.style.display = "flex";
+  noteFooter.style.flexDirection = "row";
+  noteFooter.style.justifyContent = "center";
+  noteFooter.style.marginLeft = 0;
+
+  var pinButton = document.createElement("button");
+  var pinIcon = document.createElement("i");
+  pinButton.className = "iconButton";
+  pinIcon.className = "material-icons";
+  var pinText = document.createTextNode("push_pin");
+  pinIcon.appendChild(pinText);
+  pinButton.appendChild(pinIcon);
+  noteFooter.appendChild(pinButton);
+
+  var archiveButton = document.createElement("button");
+  archiveButton.addEventListener("click", (e) => {
+    postArchive(title, body, color, id);
+    archiveNote(id);
+  });
+  var archiveIcon = document.createElement("i");
+  archiveButton.className = "iconButton";
+  archiveIcon.className = "material-icons";
+  var archiveText = document.createTextNode("archive");
+  archiveIcon.appendChild(archiveText);
+  archiveButton.appendChild(archiveIcon);
+  noteFooter.appendChild(archiveButton);
+
+  noteCard.appendChild(noteTitle);
+  noteCard.appendChild(noteBody);
+  noteCard.appendChild(noteFooter);
+
+  notesContainer.insertBefore(noteCard, notesContainer.firstChild);
 }
 
+var selectedColor = null;
+var colorPickerButton = document.getElementsByClassName("iconButton")[1];
+colorPickerButton.addEventListener("click", (e) => {
+  e.preventDefault();
+  var picker = new Picker(colorPickerButton);
+  picker.onDone = function (color) {
+    selectedColor = color.hex;
+  };
+});
 
-var noteInput = document.getElementById("noteInput");
-
+var noteTitleInput = document.getElementById("noteTitleInput");
+var noteBodyInput = document.getElementById("noteBodyInput");
 
 function submitForm(e) {
   e.preventDefault();
-  if (noteInput.value !== "") {
-    addNote(noteInput.value)
-    postNote(noteInput.value)
-    noteInput.value = "";
+  if (noteTitleInput.value !== "" || noteBodyInput !== "") {
+    addNote(noteTitleInput.value, noteBodyInput.value, selectedColor);
+    postNote(noteTitleInput.value, noteBodyInput.value, selectedColor);
+    noteTitleInput.value = "";
+    noteBodyInput.value = "";
+    selectedColor = null;
   }
-
 }
+
+function showNotes() {
+  notesContainer.innerHTML = "";
+  notesToShow.forEach((note) =>
+    addNote(note.title, note.text, note.color, note.id)
+  );
+}
+
+var noteFormSubmitButton = document.querySelector("input[type=submit]");
+noteFormSubmitButton.addEventListener("click", submitForm);
 
 function getNotes() {
   var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
+  xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-        var notes = JSON.parse(xhttp.responseText)
-        notes.forEach((note) => addNote(note.text))
+      notesToShow = JSON.parse(xhttp.responseText);
+      showNotes()
     }
   };
   xhttp.open("GET", "http://localhost:3000/notes", true);
   xhttp.send();
 }
 
-getNotes()
+getNotes();
 
-function postNote(noteText) {
+function postNote(noteTitle, noteBody, color) {
   var xhttp = new XMLHttpRequest();
-  xhttp.open("POST", "http://localhost:3000/notes", true)
-  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8")
+  xhttp.open("POST", "http://localhost:3000/notes", true);
+  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
   var data = {
-    "text" : noteText
-  }
-  xhttp.send(JSON.stringify(data))
+    title: noteTitle,
+    text: noteBody,
+    color: color,
+  };
+  xhttp.send(JSON.stringify(data));
+}
+
+function postArchive(noteTitle, noteBody, color, id) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("POST", "http://localhost:3000/archive", true);
+  xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  var data = {
+    id: id,
+    title: noteTitle,
+    text: noteBody,
+    color: color,
+  };
+  xhttp.send(JSON.stringify(data));
+}
+
+function archiveNote(id) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.open("DELETE", `http://localhost:3000/notes/${id}`, true);
+  xhttp.send();
+}
+
+function getArchive() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function () {
+    if (this.readyState == 4 && this.status == 200) {
+      notesToShow = JSON.parse(xhttp.responseText);
+      showNotes()
+    }
+  };
+  xhttp.open("GET", "http://localhost:3000/archive", true);
+  xhttp.send();
 }
