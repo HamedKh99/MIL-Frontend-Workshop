@@ -18,16 +18,8 @@
     <div class="content">
       <button class="openbtn" onclick="openNav()">☰</button>
       <form onsubmit="return false;" class="noteForm">
-        <input
-          type="text"
-          id="noteInput"
-          name="note"
-          placeholder="Take a note..."
-        />
-      </form>
-      <form onsubmit="return false;" class="noteForm wide">
-        <input type="text" id="noteTitleInput" placeholder="Title" />
-        <input type="text" id="noteBodyInput" placeholder="Take a note..." />
+        <input autocomplete="off" type="text" id="noteTitleInput" placeholder="Title" />
+        <input autocomplete="off" type="text" id="noteBodyInput" placeholder="Take a note..." />
         <div class="formFooter">
           <div class="iconButtonsContainer">
             <button class="iconButton"><i class="material-icons">push_pin</i></button>
@@ -37,7 +29,7 @@
         </div>
       </form>
 
-      <div class="notes"></div>
+      <div class="notes grabbable-grid"></div>
     </div>
     <script src="./script.js"></script>
     <script src="./ui.js"></script>

@@ -1,9 +1,8 @@
-var notWideNoteInput = document.getElementById('noteInput')
-var notWideNoteForm = document.getElementsByClassName('noteForm')[0]
-var wideNoteForm = document.getElementsByClassName('noteForm')[1]
-var noteBodyInput = document.getElementById('noteBodyInput')
-notWideNoteInput.addEventListener('focus', () => {
-    notWideNoteForm.style.display = 'none'
-    wideNoteForm.style.display = 'block'
-    noteBodyInput.focus()
-})
+var noteBodyInput = document.getElementById("noteBodyInput");
+var noteTitleInput = document.getElementById("noteTitleInput");
+var noteFormFooter = document.querySelector("div.formFooter");
+noteBodyInput.addEventListener("focus", () => {
+  noteTitleInput.style.display = "block";
+  noteFormFooter.style.display = "flex";
+  noteBodyInput.focus();
+});

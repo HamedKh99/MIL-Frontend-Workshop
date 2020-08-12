@@ -24,7 +24,6 @@ var archiveSidebarItem = sidebarItems[1];
 notesSidebarItem.addEventListener('click', (e) => {
   notesSidebarItem.classList.add('active')
   archiveSidebarItem.classList.remove('active')
-  document.getElementsByClassName('noteForm')[0].style.display = 'block'
   getNotes()
 })
 
@@ -32,7 +31,6 @@ archiveSidebarItem.addEventListener('click', (e) => {
   archiveSidebarItem.classList.add('active')
   notesSidebarItem.classList.remove('active')
   document.getElementsByClassName('noteForm')[0].style.display = 'none'
-  document.getElementsByClassName('noteForm')[1].style.display = 'none'
   getArchive()
 })
 
@@ -43,19 +41,15 @@ var notesContainer = document.getElementsByClassName("notes")[0];
 
 function addNote(title, body, color, id) {
   var noteCard = document.createElement("div");
-  noteCard.style.display = "flex";
-  noteCard.style.flexDirection = "column";
-  // noteCard.style.justifyContent = 'space-between'
-
   noteCard.style.backgroundColor = color;
 
   var titleText = document.createTextNode(title);
-  var noteTitle = document.createElement("h3");
+  var noteTitle = document.createElement("h4");
   noteTitle.appendChild(titleText);
   noteTitle.style.marginTop = 0;
 
   var bodyText = document.createTextNode(body);
-  var noteBody = document.createElement("p");
+  var noteBody = document.createElement("span");
   noteBody.appendChild(bodyText);
 
   var noteFooter = document.createElement("div");
